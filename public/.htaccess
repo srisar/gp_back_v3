@@ -1,0 +1,19 @@
+RewriteEngine On
+RewriteCond %{HTTP:Authorization} ^(.+)$
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+RewriteEngine On
+RewriteCond %{REQUEST_URI}  !(\.png|\.jpg|\.webp|\.gif|\.jpeg|\.zip|\.css|\.svg|\.js)$
+RewriteRule (.*) routes.php [QSA,L]
+
+
+
+# Disable directory browsing
+Options -Indexes
+
+
+# Hide the contents of directories
+#IndexIgnore *
+
+# Hide files of type .png, .zip, .jpg, .gif and .doc from listing
+#IndexIgnore *.png *.zip *.jpg *.gif *.doc
