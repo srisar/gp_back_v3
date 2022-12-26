@@ -28,7 +28,10 @@ class Validator
 	 */
 	public static function stringMinLength( string $stringValue, int $min = 0 ): bool
 	{
-		$validator = new StringLength( [ 'min' => $min ] );
+		$validator = new StringLength();
+		$validator->setMin( $min );
+		$validator->setEncoding( 'UTF-8' );
+
 		return $validator->isValid( $stringValue );
 	}
 

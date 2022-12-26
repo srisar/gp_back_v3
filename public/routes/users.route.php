@@ -30,3 +30,8 @@ patch( '/users/update', function () {
 	Auth::authenticateJWT( UserHelper::ROLES_ADMIN_MANAGER );
 	UsersController::updateUser();
 } );
+
+patch( '/users/single/update-password', function () {
+	Auth::authenticateJWT( UserHelper::ROLES_ADMIN_MANAGER );
+	UsersController::updatePassword();
+} );

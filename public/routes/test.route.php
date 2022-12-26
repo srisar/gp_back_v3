@@ -49,12 +49,13 @@ get( '/test/validator', function () {
 
 	try {
 
-		$value = AppRequest::getInteger( 'value' );
+		$validator = new Laminas\Validator\StringLength( );
+		$validator->setMin(6);
 
 
 		JSONResponse::validResponse( [
-			'data' => $value,
-			'valid' => Validator::numberBetween( $value, 5, 10 ),
+			'v1' => $validator->isValid( "Dave1" ),
+			'v2' => $validator->isValid( "Testing" ),
 		] );
 
 	} catch ( Exception $exception ) {

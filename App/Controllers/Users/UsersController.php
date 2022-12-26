@@ -15,10 +15,24 @@ class UsersController
 	public static function getAllUsers(): void
 	{
 
-		//sleep(3);
+//		sleep(1);
 
 		try {
-			JSONResponse::validResponse( AppUser::all() );
+
+			$page = AppRequest::getInteger( 'page', false, 1 );
+			$role = AppRequest::getString( 'role', false, 'ALL' );
+
+
+			$whereFilters = [];
+
+			if ( $role != 'ALL' ) {
+				$whereFilters[] = [ 'role', '=', $role ];
+			}
+
+
+			$responseData = AppUser::where( $whereFilters )->paginate( 30, [ '*' ], '', $page );
+
+			JSONResponse::validResponse( $responseData );
 		} catch ( Exception $exception ) {
 			JSONResponse::exceptionResponse( $exception );
 		}
@@ -128,7 +142,7 @@ class UsersController
 		try {
 
 			$fields = [
-				'id' => AppRequest::getInteger( 'id' ),
+				'id' => AppRequest::getInteger( 'user_id' ),
 				'old_password' => AppRequest::getString( 'old_password' ),
 				'new_password' => AppRequest::getString( 'new_password' ),
 			];
@@ -146,14 +160,19 @@ class UsersController
 			 * Check old password is correct
 			 */
 			if ( !password_verify( $fields[ 'old_password' ], $user->password_hash ) )
-				throw new Exception( 'Invalid old password' );
+				throw new Exception( 'Old password does not match existing password' );
 
 			/*
 			 * Check new password length
 			 */
-			if ( Validator::stringMinLength( $fields[ 'new_password' ], 6 ) )
-				throw new Exception( 'Password must be 6 characters minimum' );
+			if ( !Validator::stringMinLength( $fields[ 'new_password' ], 6 ) )
+				throw new Exception( 'Password must be at least 6 characters in length' );
 
+
+			$user->password_hash = password_hash( $fields[ 'new_password' ], PASSWORD_DEFAULT );
+			$user->save();
+
+			JSONResponse::validResponse( $user );
 
 		} catch ( Exception $exception ) {
 			JSONResponse::exceptionResponse( $exception );
