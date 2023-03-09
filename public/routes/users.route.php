@@ -9,29 +9,35 @@ use App\ModelHelpers\UserHelper;
 /**
  * Get all users
  */
-get( '/users/all', function () {
+get( '/users', function () {
 	Auth::authenticateJWT( UserHelper::ROLES_ADMIN_MANAGER );
 	UsersController::getAllUsers();
 } );
 
 
-get( '/users/single', function () {
+get( '/user', function () {
 	Auth::authenticateJWT( UserHelper::ROLES_ADMIN_MANAGER );
 	UsersController::getUserById();
 } );
 
 
-post( '/users/create', function () {
+post( '/user/create', function () {
 	Auth::authenticateJWT( UserHelper::ROLES_ADMIN_MANAGER );
 	UsersController::createUser();
 } );
 
-patch( '/users/update', function () {
+patch( '/user/update', function () {
 	Auth::authenticateJWT( UserHelper::ROLES_ADMIN_MANAGER );
 	UsersController::updateUser();
 } );
 
-patch( '/users/single/update-password', function () {
+patch( '/user/update-password', function () {
 	Auth::authenticateJWT( UserHelper::ROLES_ADMIN_MANAGER );
 	UsersController::updatePassword();
 } );
+
+
+patch("/user/update-picture", function () {
+	Auth::authenticateJWT(UserHelper::ROLES_ADMIN_MANAGER);
+	UsersController::updateProfilePicture();
+});

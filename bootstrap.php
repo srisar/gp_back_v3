@@ -7,9 +7,9 @@ require_once "vendor/autoload.php";
 use App\Core\Http\AppRequest;
 use App\Core\Http\CorsConfig;
 use App\Core\Services\JWTService;
+use App\Core\Services\StorageSystem;
 use Dotenv\Dotenv;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use App\Core\Services\Storage;
 
 /*
  * Load .ENV support
@@ -51,8 +51,7 @@ JWTService::init( $_ENV[ 'JWT_SECRET' ], $_ENV[ 'JWT_AUDIENCE' ], $_ENV[ 'JWT_AU
 /*
  * Load file upload config
  */
-Storage::setUploadDir( __DIR__ . "/public/uploads" );
-Storage::setMaxUploadSize( 5 * 1024 * 1024 ); // 5MB
+StorageSystem::setAdapter(__DIR__. "/public/uploads");
 
 
 /* set debug as false for production env */

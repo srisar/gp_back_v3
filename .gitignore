@@ -212,3 +212,5 @@ modules.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm+all,composer,node
 /public/ckfinder/userfiles/
+/public/uploads/images/profiles/
+!/public/uploads/images/profiles/.gitkeep
