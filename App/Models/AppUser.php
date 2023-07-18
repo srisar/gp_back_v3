@@ -18,18 +18,14 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class AppUser extends Model
 {
-
-	protected $table = 'users';
+	protected $table = "users";
 
 	protected $fillable = [
-		'full_name',
-		'email',
-		'password_hash',
-		'role',
+		"full_name",
+		"email",
+		"password_hash",
+		"role",
 	];
 
-	protected $hidden = [
-		'password_hash',
-	];
-
+	protected $hidden = [ "password_hash" ];
 }
